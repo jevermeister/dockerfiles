@@ -8,7 +8,7 @@ ARG HASTEBIN_VER=dev
 ENV UID=4242 GID=4242
 
 RUN apk -U upgrade \
-    && apk add git su-exec \
+    && apk --virtual --no-cache add git su-exec \
     && git clone https://github.com/jevermeister/hastebin-evo /app \
     && cd /app \
     && git checkout ${HASTEBIN_VER} \
@@ -17,6 +17,7 @@ RUN apk -U upgrade \
     && apk del git \
     && rm -rf /var/lib/apk/* /var/cache/apk/*
 
+WORKDIR /app
 ADD ./app.sh /app/
 RUN chmod 755 app.sh
 
